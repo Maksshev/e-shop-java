@@ -1,33 +1,42 @@
 package dto;
 
 import java.util.List;
+import java.util.Map;
 
 public class Cart implements Identifiable {
-    private User user;
-    private List<Commodity> cartItems;
+    private int userId;
+    private List<Map<Commodity, Integer>> cartItems;
 
-    public Cart(User user, List<Commodity> cartItems) {
-        this.user = user;
+    public Cart(int userId, List<Map<Commodity, Integer>> cartItems) {
+        this.userId = userId;
         this.cartItems = cartItems;
     }
 
-    public User getUser() {
-        return user;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser(int userId) {
+        this.userId = userId;
     }
 
-    public List<Commodity> getCartItems() {
+    public List<Map<Commodity, Integer>> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(List<Commodity> cartItems) {
+    public void setCartItems(List<Map<Commodity, Integer>> cartItems) {
         this.cartItems = cartItems;
     }
 
     public int getId() {
         return 0;
+    }
+
+    @Override
+    public String toString() {
+        return "Cart{" +
+                "userId=" + userId +
+                ", cartItems=" + cartItems +
+                '}';
     }
 }

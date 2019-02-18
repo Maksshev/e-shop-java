@@ -7,17 +7,26 @@ public class User implements Identifiable {
     private String password;
     private int id;
 
-    public User(String firstName, String lastName, String login, String password, int id) {
+    public User(String firstName, String lastName, String login, String password) {
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.login = login;
+        this.id = login.hashCode();
+    }
+
+    public User(String firstName, String lastName, String login, int id) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
         this.id = id;
     }
 
-    public User(String firstName, String lastName, String login, String password) {
+    public User(String firstName, String lastName, String login) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.login = login;
+        this.id = login.hashCode();
     }
 
     public String getFirstName() {
@@ -58,5 +67,13 @@ public class User implements Identifiable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "login='" + login + '\'' +
+                ", id=" + id +
+                '}';
     }
 }
