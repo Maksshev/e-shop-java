@@ -12,6 +12,9 @@ public class Commodity implements Identifiable {
         this.id = id;
     }
 
+    public Commodity() {
+    }
+
     public String getName() {
         return name;
     }
@@ -34,5 +37,14 @@ public class Commodity implements Identifiable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Commodity{" +
+                "name='" + name + '\'' +
+                ", price=" + price +
+                ", id=" + id +
+                '}';
     }
 }
