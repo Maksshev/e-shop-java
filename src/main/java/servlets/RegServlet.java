@@ -1,6 +1,7 @@
 package servlets;
 
 import dto.User;
+import services.CookieService;
 import services.ListService;
 import services.RegService;
 
@@ -25,13 +26,15 @@ public class RegServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        CookieService cs = new CookieService(resp, req, connection);
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
         String login = req.getParameter("login");
         String password = req.getParameter("password");
         User user = regService.createUser(login, password, firstName, lastName);
         regService.registerUser(user);
-        listService.writeTemplateToFile();
+        cs.setCookie(user.getId());
+        listService.writeTemplateToFile(user.getId());
         resp.sendRedirect("/list");
     }
 }
