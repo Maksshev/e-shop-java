@@ -12,6 +12,7 @@ public class Commodity implements Identifiable {
         this.id = id;
     }
 
+
     public Commodity(int id) {
         this.id = id;
     }

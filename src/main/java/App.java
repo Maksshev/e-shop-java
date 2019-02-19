@@ -11,7 +11,9 @@ import org.eclipse.jetty.server.handler.HandlerCollection;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import services.ListService;
 import servlets.AuthServlet;
+import servlets.RegServlet;
 
 import java.sql.Connection;
 
@@ -22,20 +24,20 @@ public class App {
         Connection connection = new DbConnection().connection();
 
 
-        ResourceHandler authRes = new ResourceHandler();
-        authRes.setResourceBase("templates/auth");
-        authRes.setDirectoriesListed(true);
-        authRes.setWelcomeFiles(new String[] {"auth.html"});
-        ContextHandler authResHandler = new ContextHandler("/");
-        authResHandler.setHandler(authRes);
+        ResourceHandlerGenerator rhg = new ResourceHandlerGenerator();
+
+        ContextHandler authResHandler = rhg.generateResourceHandler("src/main/resources/templates/auth", "auth.html", "/");
+        ContextHandler regResHandler = rhg.generateResourceHandler("src/main/resources/templates/reg", "reg.html", "/signup");
+        ContextHandler listResHandler = rhg.generateResourceHandler("src/main/resources/templates/listHTML", "list.html", "/list");
 
 
         ServletContextHandler servletHandler = new ServletContextHandler();
         servletHandler.addServlet(new ServletHolder(new AuthServlet(connection)), "/auth");
+        servletHandler.addServlet(new ServletHolder(new RegServlet(connection)), "/reg");
 
 
         HandlerCollection handlerCollection = new HandlerCollection();
-        handlerCollection.setHandlers(new Handler[] {authResHandler, servletHandler});
+        handlerCollection.setHandlers(new Handler[] {authResHandler, regResHandler, listResHandler, servletHandler});
 
         Server server = new Server(80);
 
@@ -43,23 +45,7 @@ public class App {
         server.join();
         server.start();
 
-//        DaoCommoditySql daoCommoditySql = new DaoCommoditySql(connection);
-//
-//        DaoUserSql daoUserSql = new DaoUserSql(connection);
-//
-//        DaoCartSql daoCartSql = new DaoCartSql(connection, -823827821);
-//
-//        User user = new User("Valera", "123456", "Valera", "123456");
-//
-//        daoCartSql.addCommodityToCart(new Commodity(5));
-//
-//        daoCartSql.remove(1);
-//
-//        daoCartSql.remove(5);
-//
-//        daoCartSql.addCommodityToCart(new Commodity(21));
-//
-//        System.out.println(daoCartSql.get(-823827821));
+
 
     }
 }
