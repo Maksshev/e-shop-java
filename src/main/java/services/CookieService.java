@@ -27,11 +27,11 @@ public class CookieService {
         resp.addCookie(cookie);
     }
 
-    public boolean checkCookie(int userId) {
+    public boolean checkCookie() {
         Cookie[] cookies = req.getCookies();
         if (cookies != null && cookies.length > 0) {
             for (Cookie c : cookies) {
-                if (c.getName().equals(COOKIE_NAME) && daoUserSql.get(Integer.parseInt(c.getValue())) != null) {
+                if (c.getName().equals(COOKIE_NAME)) {
                     return true;
                 }
             }
