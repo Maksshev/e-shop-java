@@ -1,6 +1,7 @@
 package servlets;
 
 import dto.User;
+import services.CartService;
 import services.CookieService;
 import services.ListService;
 import services.RegService;
@@ -35,6 +36,8 @@ public class RegServlet extends HttpServlet {
         regService.registerUser(user);
         cs.setCookie(user.getId());
         listService.writeTemplateToFile(user.getId());
+        CartService cartService = new CartService(connection, user.getId());
+        cartService.writeTemplateToFile();
         resp.sendRedirect("/list");
     }
 }

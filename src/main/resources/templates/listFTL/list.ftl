@@ -9,11 +9,14 @@
 <div>
     Nice to see you, ${user.firstName}!
 </div>
+<form action="/cartgen" method="get">
+    <button type="submit">To cart</button>
+</form>
 <form action="/auth" method="get">
     <button type="submit">Log out</button>
 </form>
 <#list items as item>
-    <form action="/cart?commodityId=${item.id}&op=add" method="post">
+    <form action="/tocart?commodityId=${item.id}&op=add" method="post">
         ${item.name}
         ${item.price}
         <button type="submit">Add to cart</button>

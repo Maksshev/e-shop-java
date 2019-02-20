@@ -1,6 +1,7 @@
 package dao;
 
 import dto.Cart;
+import dto.CartItem;
 import dto.Commodity;
 
 import java.sql.Connection;
@@ -8,11 +9,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class DaoCartSql implements Dao<Cart> {
+public class DaoCartSql implements Dao<CartItem> {
 
     private Connection connection;
 
@@ -30,32 +29,31 @@ public class DaoCartSql implements Dao<Cart> {
         this.currentUserId = currentUserId;
     }
 
-    public Cart get(int userId) {
+    public CartItem get(int userId) {
+        throw new IllegalStateException("Method is not supplied by this implementaion");
+    }
+
+    public List<CartItem> getAll() {
 
         try {
             String sql = "SELECT * FROM max26_cart WHERE userId = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, userId);
+            preparedStatement.setInt(1, currentUserId);
             ResultSet resultSet = preparedStatement.executeQuery();
-            List<Map<Commodity, Integer>> cartItems = new ArrayList<Map<Commodity, Integer>>();
+            List<CartItem> cartItems = new ArrayList<>();
             while (resultSet.next()) {
                 final int commodityAmount = resultSet.getInt("amount");
                 int commodityIndex = resultSet.getInt("commodityId");
                 final Commodity commodity = daoCommoditySql.get(commodityIndex);
-                cartItems.add(new HashMap<Commodity, Integer>() {{
-                    put(commodity, commodityAmount);
-                }});
+                String name = commodity.getName();
+                int price = commodity.getPrice();
+                cartItems.add(new CartItem(commodityIndex, name, price, commodityAmount));
             }
 
-            return new Cart(userId, cartItems);
+            return cartItems;
         } catch (SQLException e) {
             throw new IllegalStateException("Something went wrong");
-        }
-    }
-
-    public List<Cart> getAll() {
-        throw new IllegalStateException("Method is not supplied by this implementation");
-    }
+        }    }
 
     public void remove(int commodityId) {
 
@@ -74,7 +72,7 @@ public class DaoCartSql implements Dao<Cart> {
 
     }
 
-    public void add(Cart item) {
+    public void add(CartItem item) {
         throw new IllegalStateException("Method is not supplied by this implementation");
     }
 
@@ -111,6 +109,23 @@ public class DaoCartSql implements Dao<Cart> {
             throw new IllegalStateException("Something went wrong");
         }
 
+    }
+
+
+    public int getTotalSum() {
+        try {
+            String sql = "SELECT sum(price*amount) FROM max26_commodities JOIN max26_cart ON id = commodityId AND userId = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, currentUserId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                return resultSet.getInt(1);
+            } else {
+                return 0;
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Something went wrong");
+        }
     }
 
 

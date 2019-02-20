@@ -13,6 +13,8 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import services.ListService;
 import servlets.AuthServlet;
+import servlets.CartServlet;
+import servlets.ListServlet;
 import servlets.RegServlet;
 
 import java.sql.Connection;
@@ -29,15 +31,18 @@ public class App {
         ContextHandler authResHandler = rhg.generateResourceHandler("src/main/resources/templates/auth", "auth.html", "/");
         ContextHandler regResHandler = rhg.generateResourceHandler("src/main/resources/templates/reg", "reg.html", "/signup");
         ContextHandler listResHandler = rhg.generateResourceHandler("src/main/resources/templates/listHTML", "list.html", "/list");
+        ContextHandler cartResHandler = rhg.generateResourceHandler("src/main/resources/templates/cartHTML", "cart.html", "/cart");
 
 
         ServletContextHandler servletHandler = new ServletContextHandler();
         servletHandler.addServlet(new ServletHolder(new AuthServlet(connection)), "/auth");
         servletHandler.addServlet(new ServletHolder(new RegServlet(connection)), "/reg");
+        servletHandler.addServlet(new ServletHolder(new ListServlet(connection)), "/tocart");
+        servletHandler.addServlet(new ServletHolder(new CartServlet(connection)), "/cartgen");
 
 
         HandlerCollection handlerCollection = new HandlerCollection();
-        handlerCollection.setHandlers(new Handler[] {authResHandler, regResHandler, listResHandler, servletHandler});
+        handlerCollection.setHandlers(new Handler[] {authResHandler, regResHandler, listResHandler, cartResHandler, servletHandler});
 
         Server server = new Server(80);
 
