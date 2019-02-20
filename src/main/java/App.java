@@ -1,17 +1,10 @@
-import dao.DaoCartSql;
-import dao.DaoCommoditySql;
-import dao.DaoUserSql;
 import db.DbConnection;
-import dto.Commodity;
-import dto.User;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.HandlerCollection;
-import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import services.ListService;
 import servlets.AuthServlet;
 import servlets.CartServlet;
 import servlets.ListServlet;

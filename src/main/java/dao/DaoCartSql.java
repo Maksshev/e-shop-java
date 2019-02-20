@@ -1,6 +1,5 @@
 package dao;
 
-import dto.Cart;
 import dto.CartItem;
 import dto.Commodity;
 

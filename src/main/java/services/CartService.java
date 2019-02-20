@@ -4,7 +4,6 @@ import dao.DaoCartSql;
 import dao.DaoUserSql;
 import dto.CartItem;
 import dto.Commodity;
-import dto.User;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;

@@ -1,8 +1,6 @@
 package servlets;
 
-import dao.DaoCartSql;
 import dto.Commodity;
-import dto.User;
 import services.CartService;
 import services.CookieService;
 
